@@ -5,8 +5,11 @@ import glob
 import os
 
 import pandas as pd
+import numpy as np
 
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score
 
 
 # define functions
@@ -34,13 +37,26 @@ def get_csvs_df(path):
 
 
 # TO DO: add function to split data
+def split_data(df):
+    # split data
+    X = df[:,:-1]
+    y= df[:, -1]
+    train_test_split(X, y, test_size=0.30, random_state=0)
+    
 
 
 def train_model(reg_rate, X_train, X_test, y_train, y_test):
     # train model
     LogisticRegression(C=1/reg_rate, solver="liblinear").fit(X_train, y_train)
 
+def evaluate_model (X_test, y_test):
+    # evaluate model
+    y_hat = model.predict(X_test)
+    y_scores = model.predict_proba(X_test)
 
+    return np.average(y_hat == y_test),roc_auc_score(y_test,y_scores[:,1])
+    
+    
 def parse_args():
     # setup arg parser
     parser = argparse.ArgumentParser()
