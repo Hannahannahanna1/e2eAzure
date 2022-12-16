@@ -15,6 +15,7 @@ from sklearn.metrics import roc_auc_score
 # define functions
 def main(args):
     # TO DO: enable autologging
+    mlflow.autolog()
 
 
     # read data
